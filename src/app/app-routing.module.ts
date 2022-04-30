@@ -8,20 +8,14 @@ import { YearViewComponent } from './base-cal/year-view/year-view.component';
 
 const routes: Routes = [
   {
-    path: '', component: BaseCalComponent, children: [
-      {
-        path: 'month', component: MonthViewComponent
-      },
-      {
-        path: 'day', component: DayViewComponent
-      },
-      {
-        path: 'week', component: WeekViewComponent
-      },
-      {
-        path: 'year', component: YearViewComponent
-      }
-    ]
+    path: 'calendar',
+    component: BaseCalComponent,
+  },
+  {
+    path: '',
+    redirectTo: '/calendar',
+    pathMatch: 'full'
+
   }
 ];
 

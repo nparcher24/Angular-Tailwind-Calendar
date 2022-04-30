@@ -2,7 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   ViewChild,
-  TemplateRef, OnInit
+  TemplateRef, OnInit, ChangeDetectorRef
 } from '@angular/core';
 import {
   startOfDay,
@@ -22,7 +22,10 @@ import {
   CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
+  CalendarMonthViewComponent,
 } from 'angular-calendar';
+import { WeekDay } from 'calendar-utils';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 const colors: any = {
@@ -55,13 +58,26 @@ export enum CalendarViewType {
 
 export class BaseCalComponent implements OnInit {
 
-  view: CalendarViewType = CalendarViewType.Month;
+
+
+  view: CalendarViewType = CalendarViewType.Day;
   CalendarViewType = CalendarViewType;
   viewDate: Date = new Date();
   viewDateString = "Today";
   showView = false;
+  weekViewHeaderDays: WeekDay[] = [];
 
   calViewString = ""
+
+  something = CalendarMonthViewComponent
+
+  constructor(private route: ActivatedRoute, private router: Router, private changeDetector: ChangeDetectorRef) { }
+
+
+  ngOnInit(): void {
+    this.udpateCalViewString()
+    console.log(this.something)
+  }
 
   udpateCalViewString() {
     switch (this.view) {
@@ -90,6 +106,17 @@ export class BaseCalComponent implements OnInit {
     this.udpateCalViewString()
     this.showView = false;
   }
+
+  setViewDate(newDate: Date) {
+    console.log("CALLED")
+    this.viewDate = newDate
+    this.updateViewString()
+    this.udpateCalViewString()
+    this.refresh.next()
+  }
+
+
+
 
   incrementViewDate(increase: boolean) {
     if (increase) {
@@ -133,6 +160,8 @@ export class BaseCalComponent implements OnInit {
     }
     this.updateViewString()
     this.udpateCalViewString()
+    this.refresh.next()
+    console.log('VIEWDATE: ', this.viewDate)
   }
 
   updateViewString() {
@@ -229,7 +258,7 @@ export class BaseCalComponent implements OnInit {
     },
     {
       start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
+      end: addHours(startOfDay(new Date()), 4),
       title: 'A draggable and resizable event',
       color: colors.yellow,
       actions: this.actions,
@@ -241,10 +270,11 @@ export class BaseCalComponent implements OnInit {
     },
   ];
 
+
+
   activeDayIsOpen: boolean = true;
 
 
-  constructor() { }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -312,8 +342,6 @@ export class BaseCalComponent implements OnInit {
     this.activeDayIsOpen = false;
   }
 
-  ngOnInit(): void {
-    this.udpateCalViewString()
-  }
+
 
 }
