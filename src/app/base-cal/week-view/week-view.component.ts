@@ -18,4 +18,10 @@ export class WeekViewComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  handleEvent(action: string, event: CalendarEvent): void {
+    console.log(event)
+    // this.modalData = { event, action };
+    // this.modal.open(this.modalContent, { size: 'lg' });
+  }
+
 }

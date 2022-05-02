@@ -31,5 +31,15 @@ export class MonthViewComponent implements OnInit {
       return false
     }
   }
+
+  isToday(selectedDate: Date): boolean {
+    let today = new Date()
+    if (selectedDate.getFullYear() == today.getFullYear() && selectedDate.getMonth() == today.getMonth() && selectedDate.getDate() == today.getDate()) {
+      return true
+    } else {
+      return false
+    }
+  }
+
 }
 

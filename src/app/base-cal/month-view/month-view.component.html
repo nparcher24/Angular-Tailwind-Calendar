@@ -3,11 +3,15 @@
     <button (click)="updateDate(day.date)">
       <time
         [dateTime]="day.date"
-        [ngClass]="
+        [ngClass]="[
           isSelectedDate(day.date)
-            ? 'flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white'
+            ? isToday(day.date)
+              ? 'flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-red-200'
+              : 'flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white'
+            : isToday(day.date)
+            ? 'text-red-600 font-bold'
             : ''
-        "
+        ]"
       >
         {{ day.date.getDate() }}
       </time>
