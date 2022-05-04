@@ -9,7 +9,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { MonthViewComponent } from './base-cal/month-view/month-view.component';
 import { DayViewComponent } from './base-cal/day-view/day-view.component';
 import { WeekViewComponent } from './base-cal/week-view/week-view.component';
-import { YearViewComponent } from './base-cal/year-view/year-view.component'
+import { YearViewComponent } from './base-cal/year-view/year-view.component';
+import { EventsListComponent } from './base-cal/events-list/events-list.component'
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { YearViewComponent } from './base-cal/year-view/year-view.component'
     DayViewComponent,
     WeekViewComponent,
     YearViewComponent,
+    EventsListComponent,
 
   ],
   imports: [

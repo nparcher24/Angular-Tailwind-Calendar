@@ -44,10 +44,10 @@ const colors: any = {
 };
 
 export enum CalendarViewType {
-  Year = "Year",
   Week = "Week",
   Month = "Month",
-  Day = "Day"
+  Day = "Day",
+  List = "List"
 }
 
 @Component({
@@ -93,10 +93,6 @@ export class BaseCalComponent implements OnInit {
         this.calViewString = format(this.viewDate, "MMM dd yyyy");
         break;
       }
-      case CalendarViewType.Year: {
-        this.calViewString = format(this.viewDate, "yyyy");
-        break;
-      }
     }
   }
 
@@ -115,9 +111,6 @@ export class BaseCalComponent implements OnInit {
     this.refresh.next()
   }
 
-
-
-
   incrementViewDate(increase: boolean) {
     if (increase) {
       switch (this.view) {
@@ -133,10 +126,10 @@ export class BaseCalComponent implements OnInit {
           this.viewDate.setDate(this.viewDate.getDate() + 7);
           break;
         }
-        case CalendarViewType.Year: {
-          this.viewDate.setDate(this.viewDate.getFullYear() + 1);
-          break;
-        }
+        // case CalendarViewType.Year: {
+        //   this.viewDate.setDate(this.viewDate.getFullYear() + 1);
+        //   break;
+        // }
       }
     } else {
       switch (this.view) {
@@ -152,10 +145,10 @@ export class BaseCalComponent implements OnInit {
           this.viewDate.setDate(this.viewDate.getDate() - 7);
           break;
         }
-        case CalendarViewType.Year: {
-          this.viewDate.setDate(this.viewDate.getFullYear() - 1);
-          break;
-        }
+        // case CalendarViewType.Year: {
+        //   this.viewDate.setDate(this.viewDate.getFullYear() - 1);
+        //   break;
+        // }
       }
     }
     this.updateViewString()
@@ -211,7 +204,9 @@ export class BaseCalComponent implements OnInit {
 
   actions: CalendarEventAction[] = [
     {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+      label: `<h1><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
+    </svg></h1>`,
       a11yLabel: 'move',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         console.log(event)
@@ -269,6 +264,7 @@ export class BaseCalComponent implements OnInit {
     // },
     {
       start: addHours(startOfDay(new Date()), 2),
+      id: '2',
       end: addHours(startOfDay(new Date()), 4),
       title: 'A draggable and resizable event',
       color: colors.yellow,
@@ -281,6 +277,7 @@ export class BaseCalComponent implements OnInit {
     },
     {
       start: addHours(startOfDay(new Date()), 7),
+      id: '3',
       end: addHours(startOfDay(new Date()), 9),
       title: 'A draggable and resizable event',
       color: colors.yellow,
@@ -293,7 +290,46 @@ export class BaseCalComponent implements OnInit {
     },
     {
       start: addHours(startOfDay(new Date()), 12),
+      id: '4',
       end: addHours(startOfDay(new Date()), 13),
+      title: 'A draggable and resizable event',
+      color: colors.yellow,
+      actions: this.actions,
+      resizable: {
+        beforeStart: false,
+        afterEnd: false,
+      },
+      draggable: false,
+    }, {
+      start: addHours(startOfDay(new Date()), 14),
+      id: '5',
+      end: addHours(startOfDay(new Date()), 15),
+      title: 'A draggable and resizable event',
+      color: colors.yellow,
+      actions: this.actions,
+      resizable: {
+        beforeStart: false,
+        afterEnd: false,
+      },
+      draggable: false,
+    },
+    {
+      start: addHours(startOfDay(new Date()), 16),
+      id: '6',
+      end: addHours(startOfDay(new Date()), 17),
+      title: 'A draggable and resizable event',
+      color: colors.yellow,
+      actions: this.actions,
+      resizable: {
+        beforeStart: false,
+        afterEnd: false,
+      },
+      draggable: false,
+    },
+    {
+      start: addHours(startOfDay(new Date()), 18),
+      end: addHours(startOfDay(new Date()), 19),
+      id: '1',
       title: 'A draggable and resizable event',
       color: colors.yellow,
       actions: this.actions,

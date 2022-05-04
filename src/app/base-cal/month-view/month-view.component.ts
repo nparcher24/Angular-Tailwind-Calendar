@@ -2,15 +2,16 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CalendarMonthViewComponent } from 'angular-calendar';
 import { MonthViewDay, CalendarEvent } from 'calendar-utils';
 import { Subject } from 'rxjs';
-import { BaseCalComponent } from '../base-cal.component';
+import { BaseCalComponent, CalendarViewType } from '../base-cal.component';
 
 
 @Component({
   selector: 'month-view',
   templateUrl: './month-view.component.html',
+  styleUrls: ['./month-override.css']
 })
 export class MonthViewComponent implements OnInit {
-
+  @Input() activeDay = new Date(2022, 12, 6)
   @Input() viewDate = new Date()
   @Input() events: CalendarEvent[] = []
   @Input() refresh = new Subject<void>();
@@ -22,6 +23,11 @@ export class MonthViewComponent implements OnInit {
 
   updateDate(date: Date) {
     this.baseCal.setViewDate(date)
+    this.baseCal.view = CalendarViewType.Day
+
+    this.activeDay = date
+
+    this.refresh.next()
   }
 
   isSelectedDate(selectedDate: Date): boolean {
@@ -40,6 +46,5 @@ export class MonthViewComponent implements OnInit {
       return false
     }
   }
-
 }
 

@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CalendarMonthViewComponent } from 'angular-calendar';
 import { MonthViewDay, CalendarEvent } from 'calendar-utils';
 import { Subject } from 'rxjs';
+import { BaseCalComponent, CalendarViewType } from '../base-cal.component';
 
 @Component({
   selector: 'week-view',
@@ -13,7 +14,7 @@ export class WeekViewComponent implements OnInit {
   @Input() events: CalendarEvent[] = []
   @Input() refresh = new Subject<void>();
 
-  constructor() { }
+  constructor(private baseCal: BaseCalComponent) { }
 
   ngOnInit(): void {
   }
@@ -22,6 +23,11 @@ export class WeekViewComponent implements OnInit {
     console.log(event)
     // this.modalData = { event, action };
     // this.modal.open(this.modalContent, { size: 'lg' });
+  }
+
+  headerClicked(day: Date) {
+    this.baseCal.viewDate = day;
+    this.baseCal.changeView(CalendarViewType.Day)
   }
 
 }

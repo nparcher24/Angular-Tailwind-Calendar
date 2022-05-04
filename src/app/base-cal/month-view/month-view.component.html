@@ -1,35 +1,44 @@
-<ng-template #customCellTemplate let-day="day" let-locale="locale">
-  <div class="h-full p-1" [ngClass]="day.inMonth ? 'bg-white' : 'bg-gray-50'">
-    <button (click)="updateDate(day.date)">
-      <time
-        [dateTime]="day.date"
-        [ngClass]="[
-          isSelectedDate(day.date)
-            ? isToday(day.date)
-              ? 'flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-red-200'
-              : 'flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white'
-            : isToday(day.date)
-            ? 'text-red-600 font-bold'
-            : ''
-        ]"
-      >
-        {{ day.date.getDate() }}
-      </time>
-    </button>
+<ng-template
+  #customCellTemplate
+  let-day="day"
+  let-locale="locale"
+  class="min-h-12"
+>
+  <button
+    class="p-1 h-full aspect-square flex flex-col items-start hover:bg-blue-50 transition duration-100 justify-start"
+    [ngClass]="[day.inMonth ? 'bg-white' : 'bg-gray-50']"
+    (click)="updateDate(day.date)"
+  >
+    <time
+      [dateTime]="day.date"
+      [ngClass]="[
+        isSelectedDate(day.date)
+          ? isToday(day.date)
+            ? 'flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-red-200'
+            : 'flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 font-semibold text-white'
+          : isToday(day.date)
+          ? 'text-red-600 font-bold'
+          : ''
+      ]"
+    >
+      {{ day.date.getDate() }}
+    </time>
 
-    <div *ngIf="day.events.length > 0 && showEvents">
-      <ol class="mt-2" *ngFor="let event of day.events | slice: 0:2">
-        <li>
+    <div
+      *ngIf="day.events.length > 0 && showEvents"
+      class="w-full justify-start items-start flex flex-col"
+    >
+      <ol class="mt-2 xl:w-44 lg:w-32 md:w-24 sm:w-14 w-10 text-xs md:text-sm">
+        <li *ngFor="let event of day.events.slice(0, 2)">
           <a href="" class="group flex">
             <p
               class="flex-auto truncate font-medium text-gray-900 group-hover:text-indigo-600"
             >
-              <!-- {{ event.title }} -->
+              {{ event.title }}
             </p>
             <time
               class="ml-3 hidden flex-none text-gray-500 group-hover:text-indigo-600 xl:block"
             >
-              <!-- {{ event.start }} -->
             </time>
           </a>
         </li>
@@ -37,7 +46,7 @@
         <li class="text-gray-500">+ {{ day.events.length - 2 }} more</li>
       </ol>
     </div>
-  </div>
+  </button>
 </ng-template>
 
 <ng-template #customHeaderTemplate>
@@ -68,15 +77,14 @@
   </div>
 </ng-template>
 
-<div class="">
-  <div class="">
-    <mwl-calendar-month-view
-      [viewDate]="viewDate"
-      [events]="events"
-      [refresh]="refresh"
-      [cellTemplate]="customCellTemplate"
-      [headerTemplate]="customHeaderTemplate"
-    >
-    </mwl-calendar-month-view>
-  </div>
+<div class="flex flex-col overflow-auto">
+  <mwl-calendar-month-view
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    [cellTemplate]="customCellTemplate"
+    [headerTemplate]="customHeaderTemplate"
+    class=""
+  >
+  </mwl-calendar-month-view>
 </div>

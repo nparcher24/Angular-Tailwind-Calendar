@@ -133,18 +133,9 @@
               </svg>
             </button>
 
-            <!--
-              Dropdown menu, show/hide based on menu state.
-  
-              Entering: "transition ease-out duration-100"
-                From: "transform opacity-0 scale-95"
-                To: "transform opacity-100 scale-100"
-              Leaving: "transition ease-in duration-75"
-                From: "transform opacity-100 scale-100"
-                To: "transform opacity-0 scale-95"
-            -->
+            <!-- Desktop Menu -->
             <div
-              class="focus:outline-none absolute right-0 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+              class="focus:outline-none absolute right-0 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 divide-y divide-gray-300 border-solid"
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="menu-button"
@@ -152,14 +143,14 @@
               *ngIf="showView"
             >
               <div
-                class="py-1"
+                class="py-1 transition duration-300 hover:bg-gray-50 hover:scale-105"
                 role="none"
                 *ngFor="let calView of CalendarViewType | keyvalue"
               >
                 <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
                 <button
                   (click)="changeView(calView.value)"
-                  class="text-gray-700 block px-4 py-2 text-sm"
+                  class="text-gray-700 block px-4 py-2 text-sm w-full text-left"
                   role="menuitem"
                   tabindex="-1"
                   id="menu-item-0"
@@ -203,37 +194,28 @@
             </svg>
           </button>
 
-          <!--
-            Dropdown menu, show/hide based on menu state.
-  
-            Entering: "transition ease-out duration-100"
-              From: "transform opacity-0 scale-95"
-              To: "transform opacity-100 scale-100"
-            Leaving: "transition ease-in duration-75"
-              From: "transform opacity-100 scale-100"
-              To: "transform opacity-0 scale-95"
-          -->
+          <!-- Mobile Menu -->
           <div
-            class="focus:outline-none absolute right-0 mt-3 w-36 origin-top-right divide-y divide-gray-100 overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+            class="focus:outline-none absolute right-0 mt-3 w-36 origin-top-right overflow-hidden rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5"
             aria-orientation="vertical"
             aria-labelledby="menu-0-button"
             tabindex="-1"
             *ngIf="showView"
           >
-            <div class="py-1" role="none">
+            <div class="p-1" role="none">
               <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-              <a
-                href="#"
-                class="text-gray-700 block px-4 py-2 text-sm"
+              <button
+                class="w-full block px-4 py-2 text-sm bg-blue-200 text-gray-600 rounded-md"
                 role="menuitem"
                 tabindex="-1"
                 id="menu-0-item-0"
-                >Create event</a
               >
+                Create event
+              </button>
             </div>
-            <div class="py-1" role="none">
+            <div class="py-1 border-b-2 border-gray-300" role="none">
               <button
-                class="text-gray-700 block px-4 py-2 text-sm"
+                class="text-gray-700 block px-4 py-2 text-sm w-full text-left"
                 tabindex="-1"
                 id="menu-0-item-1"
                 (click)="selectToday()"
@@ -241,21 +223,23 @@
                 Go to today
               </button>
             </div>
-            <div
-              class="py-1"
-              role="none"
-              *ngFor="let calView of CalendarViewType | keyvalue"
-            >
-              <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
-              <button
-                (click)="changeView(calView.value)"
-                class="text-gray-700 block px-4 py-2 text-sm"
-                role="menuitem"
-                tabindex="-1"
-                [id]="calView.key + ' row'"
+            <div class="divide-y border-solid divide-gray-200">
+              <div
+                class="py-1"
+                role="none"
+                *ngFor="let calView of CalendarViewType | keyvalue"
               >
-                {{ calView.value + " view" }}
-              </button>
+                <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                <button
+                  (click)="changeView(calView.value)"
+                  class="text-gray-700 block px-4 py-2 text-sm"
+                  role="menuitem"
+                  tabindex="-1"
+                  [id]="calView.key + ' row'"
+                >
+                  {{ calView.value + " view" }}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -283,8 +267,6 @@
       >
         <div class="flex-1 min-h-0 flex flex-row inset-0">
           <div class="flex flex-col w-full md:hidden">
-            <div class="h-24 w-full bg-green-500 flex flex-col"></div>
-
             <div class="overflow-y-auto">
               <day-view
                 [viewDate]="viewDate"
@@ -306,14 +288,32 @@
       </div>
 
       <!-- Month View -->
-      <div *ngSwitchCase="CalendarViewType.Month">
+      <div
+        *ngSwitchCase="CalendarViewType.Month"
+        class="flex flex-col flex-1 min-h-0"
+      >
         <month-view
           [viewDate]="viewDate"
           [events]="events"
           [refresh]="refresh"
+          class="flex flex-col flex-1 min-h-0"
         ></month-view>
       </div>
-      <div *ngSwitchCase="CalendarViewType.Year"></div>
+
+      <!-- List View -->
+      <div
+        *ngSwitchCase="CalendarViewType.List"
+        class="flex flex-col flex-1 min-h-0"
+      >
+        <div class="flex flex-col flex-1 min-h-0">
+          <app-events-list
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+            class="flex flex-col flex-1 min-h-0"
+          ></app-events-list>
+        </div>
+      </div>
     </div>
   </div>
 </div>

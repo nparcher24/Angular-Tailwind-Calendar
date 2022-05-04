@@ -1,24 +1,16 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
-import {
-  CalendarDayViewComponent,
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarMonthViewComponent,
-  CalendarWeekViewComponent,
-} from 'angular-calendar';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { CalendarEvent } from 'angular-calendar';
 import { WeekDay } from 'calendar-utils';
-import { Subject } from 'rxjs';
 import { eachDayOfInterval, endOfWeek, format, startOfWeek } from 'date-fns';
+import { Subject } from 'rxjs';
 import { BaseCalComponent } from '../base-cal.component';
 
-
-
 @Component({
-  selector: 'day-view',
-  templateUrl: './day-view.component.html',
+  selector: 'app-events-list',
+  templateUrl: './events-list.component.html',
 })
-export class DayViewComponent implements OnInit {
+export class EventsListComponent implements OnInit {
+
 
   @Input() viewDate = new Date()
   @Input() events: CalendarEvent[] = []
@@ -26,6 +18,8 @@ export class DayViewComponent implements OnInit {
   dateSelectionDate = this.viewDate
 
   days: WeekDay[] = []
+
+  openMenu: string | number | undefined = undefined
 
   format = format;
 
@@ -41,6 +35,15 @@ export class DayViewComponent implements OnInit {
     this.refresh.next()
   }
 
+  openMenuItem(eventId: string | number | undefined) {
+    if (this.openMenu) {
+      this.openMenu = undefined
+    } else {
+      this.openMenu = eventId;
+    }
+
+    this.changeDetector.detectChanges()
+  }
 
 
   isSelectedDate(selectedDate: Date): boolean {
@@ -100,4 +103,5 @@ export class DayViewComponent implements OnInit {
       return false
     }
   }
+
 }
