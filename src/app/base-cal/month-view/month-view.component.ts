@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { CalendarMonthViewComponent } from 'angular-calendar';
 import { MonthViewDay, CalendarEvent } from 'calendar-utils';
 import { Subject } from 'rxjs';
@@ -16,9 +16,25 @@ export class MonthViewComponent implements OnInit {
   @Input() events: CalendarEvent[] = []
   @Input() refresh = new Subject<void>();
   @Input() showEvents = true;
+  tooSmallForEvents = false;
+
+  @HostListener('window:resize', ['$event']) onResize(event: any) {
+    if (event.target.innerWidth < 650) {
+      this.tooSmallForEvents = false;
+    } else {
+      this.tooSmallForEvents = true;
+    }
+    // console.log(event.target.innerWidth);
+  }
+
   constructor(private baseCal: BaseCalComponent) { }
 
   ngOnInit(): void {
+    if (window.innerWidth < 650) {
+      this.tooSmallForEvents = false;
+    } else {
+      this.tooSmallForEvents = true;
+    }
   }
 
   updateDate(date: Date) {
